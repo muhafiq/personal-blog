@@ -1,0 +1,22 @@
+<footer class="text-slate-500 w-full">
+  <div class="py-4 text-sm border-t border-slate-200 bg-white">
+    <div class="container px-6 mx-auto">
+      <div
+        class="grid items-center grid-cols-4 gap-6 md:grid-cols-8 lg:grid-cols-12"
+      >
+        <h1
+          class="flex items-center col-span-1 gap-2 text-base font-medium leading-6 whitespace-nowrap focus:outline-none md:col-span-4 lg:col-span-6"
+        >
+          Copyright &copy; <%= new Date().getFullYear() %> - All right reserved
+        </h1>
+        <nav
+          class="col-span-3 md:col-span-4 lg:col-span-6"
+          aria-labelledby="subfooter-links"
+        >
+          <h3 class="sr-only" id="subfooter-links">Get in touch</h3>
+          <%- include("./sosmed.ejs") %>
+        </nav>
+      </div>
+    </div>
+  </div>
+</footer>

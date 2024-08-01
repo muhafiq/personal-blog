@@ -1,0 +1,57 @@
+<main class="p-4">
+  <% if (typeof success !== 'undefined' && success) { %>
+  <div
+    id="alert-notification"
+    class="flex items-center w-full gap-4 px-4 py-3 text-sm border rounded border-emerald-100 bg-emerald-50 text-emerald-600"
+    role="alert"
+  >
+    <i class="fa-regular fa-circle-check"></i>
+    <p><%= success %></p>
+    <i id="close-alert" class="fa-solid fa-xmark ml-auto cursor-pointer"></i>
+  </div>
+  <% } %>
+
+  <h1 class="pt-6 pb-10 font-bold text-2xl text-center">
+    Welcome to Dashboard!
+  </h1>
+
+  <div class="w-full max-w-6xl mx-auto">
+    <div class="flex flex-col gap-4 lg:flex-row">
+      <div
+        class="bg-gray-50 shadow-md rounded-lg p-6 flex-1 flex items-center gap-4"
+      >
+        <div class="text-blue-600 text-4xl mr-4">
+          <i class="fas fa-file-alt"></i>
+        </div>
+        <div>
+          <h2 class="text-xl font-bold mb-2">Published Articles</h2>
+          <p class="text-4xl font-semibold text-blue-600"><%= postCount %></p>
+        </div>
+      </div>
+
+      <div
+        class="bg-gray-50 shadow-md rounded-lg p-6 flex-1 flex items-center gap-4"
+      >
+        <div class="text-yellow-500 text-4xl mr-4">
+          <i class="fas fa-file"></i>
+        </div>
+        <div>
+          <h2 class="text-xl font-bold mb-2">Your Draft</h2>
+          <p class="text-4xl font-semibold text-yellow-500"><%= postDraft %></p>
+        </div>
+      </div>
+
+      <div
+        class="bg-gray-50 shadow-md rounded-lg p-6 flex-1 flex items-center gap-4"
+      >
+        <div class="text-green-600 text-4xl mr-4">
+          <i class="fas fa-users"></i>
+        </div>
+        <div>
+          <h2 class="text-xl font-bold mb-2">Today's visitors</h2>
+          <p class="text-4xl font-semibold text-green-600">7890</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>

@@ -1,0 +1,15 @@
+<main class="p-4 min-h-screen">
+  <h1 class="text-3xl text-center py-8 font-bold">List of My Articles</h1>
+  <p class="text-center text-lg pb-12">
+    Welcome to my blog! Here, you'll find a collection of articles on various
+    topics. Feel free to browse through and read any posts that catch your
+    interest. I hope you enjoy your stay and find the content informative and
+    engaging.
+  </p>
+  <div
+    class="grid max-w-md grid-cols-1 mx-auto lg:max-w-full lg:grid-cols-2 gap-8"
+  >
+    <% posts.forEach(post => { %> <%- include("../partials/blogCard.ejs",
+    {post}) %> <% }) %>
+  </div>
+</main>

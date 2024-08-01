@@ -1,0 +1,23 @@
+<div class="px-2 py-4 border-b flex gap-4">
+  <img
+    class="aspect-square w-32 h-32 object-cover object-center rounded shadow"
+    loading="lazy"
+    src="<%= post.thumbnail %>"
+    alt="article thumbnail"
+  />
+  <div>
+    <h1 class="text-lg font-bold text-ellipsis mb-2"><%= post.title %></h1>
+    <div class="mb-2 two-line-ellipsis">
+      <%- lim(takeFirstParagraph(post.content), 200) %>
+    </div>
+    <div>
+      <a
+        class="text-sky-500 hover:underline duration-300 flex items-center gap-2 w-max"
+        href="/<%= post.slug %>"
+      >
+        <i class="fa-solid fa-circle-arrow-right text-lg"></i>
+        <span>Read more</span>
+      </a>
+    </div>
+  </div>
+</div>

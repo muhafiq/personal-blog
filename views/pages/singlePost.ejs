@@ -1,0 +1,34 @@
+<main class="p-4">
+  <div
+    class="flex flex-col items-center py-8 gap-8 border-b border-b-black/30 mb-4"
+  >
+    <h1 class="text-3xl lg:text-4xl font-bold"><%= post.title %></h1>
+    <% if (post.thumbnail) { %>
+    <img
+      loading="lazy"
+      src="<%= post.thumbnail %>"
+      alt="article thumbnail"
+      class="rounded shadow object-center object-cover max-w-lg aspect-video w-full"
+    />
+    <% } %>
+  </div>
+  <article id="single-post-content"><%- post.content %></article>
+  <div class="text-center py-8">
+    <p class="text-lg font-semibold">Thanks for reading!</p>
+    <a href="/blog" class="text-sky-500 underline hover:text-sky-700">
+      Back to Blog to read more
+    </a>
+  </div>
+  <div class="flex justify-center py-8">
+    <%- include("../partials/subscribeCard.ejs") %>
+  </div>
+
+  <!-- back to top -->
+  <button
+    id="back-to-top-btn"
+    title="back to top"
+    class="invisible opacity-0 fixed z-10 bottom-8 right-8 p-4 bg-gray-100 rounded shadow-md cursor-pointer hover:bg-gray-200 transition-all duration-300"
+  >
+    <i class="fa-solid fa-angles-up text-lg"></i>
+  </button>
+</main>

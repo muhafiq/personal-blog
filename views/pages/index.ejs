@@ -1,0 +1,47 @@
+<main class="w-full min-h-screen p-4">
+  <section
+    class="flex flex-col gap-4 lg:gap-8 items-center text-center lg:flex-row lg:text-start"
+  >
+    <div
+      class="relative inline-flex items-center justify-center w-32 h-32 md:w-48 md:h-48 lg:w-96 lg:h-96 text-white rounded-full"
+    >
+      <img
+        src="/images/profile.jpeg"
+        alt="My profile picture"
+        loading="lazy"
+        class="max-w-full rounded-full aspect-square object-cover border shadow-md"
+      />
+    </div>
+    <div class="flex flex-col items-center lg:items-start">
+      <h1 class="text-2xl lg:text-3xl font-bold py-4">
+        Hi, I'm Muh Afiq Ma'mun 👋
+      </h1>
+      <p class="px-4 mb-2 lg:px-0">
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolore vel
+        delectus fugiat deleniti. Totam est quisquam accusamus dolorem mollitia
+        fuga maiores harum quae enim distinctio amet, magnam, dolorum ipsam
+        neque.
+      </p>
+      <%- include("../partials/sosmed.ejs") %>
+    </div>
+  </section>
+  <div class="border-b my-4"></div>
+  <section>
+    <div class="flex items-center justify-between mb-4">
+      <h1 class="text-xl lg:text-2xl font-bold">Latest Article</h1>
+      <a
+        href="/blog"
+        class="px-6 py-2 rounded-sm bg-gray-100 shadow hover:bg-gray-200 transition-all duration-300"
+      >
+        <span> See all article</span>
+      </a>
+    </div>
+    <div class="flex flex-col gap-4">
+      <% posts.forEach(post => { %> <%- include("../partials/articleList.ejs",
+      {post}) %> <% }) %>
+    </div>
+  </section>
+  <section class="mt-16 mb-12 flex justify-center">
+    <%- include("../partials/subscribeCard.ejs") %>
+  </section>
+</main>

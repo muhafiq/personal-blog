@@ -1,0 +1,25 @@
+<div class="p-4 bg-gray-50 rounded shadow">
+  <a href="/<%= post.slug %>" class="block">
+    <img
+      loading="lazy"
+      class="object-cover w-full h-full aspect-video object-center rounded-sm"
+      src="<%= post.thumbnail %>"
+      alt="blog thumbnail"
+    />
+  </a>
+  <span
+    class="inline-flex px-4 py-2 text-xs font-semibold tracking-widest uppercase rounded-full text-rose-500 bg-rose-100 mt-4"
+  >
+    <%= post.category %>
+  </span>
+  <p class="mt-4 text-xl font-semibold">
+    <a href="/<%= post.slug %>" title="" class="text-black"
+      ><%= post.title %></a
+    >
+  </p>
+  <!-- <p class="mt-2 text-gray-600 two-line-ellipsis"><%= post.content %></p> -->
+  <div class="h-0 my-2 border-t-2 border-gray-200 border-dashed"></div>
+  <span class="block text-sm font-bold tracking-widest text-gray-500 uppercase">
+    <%= formatDate(post.createdAt) %>
+  </span>
+</div>
