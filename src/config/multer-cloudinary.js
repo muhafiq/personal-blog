@@ -16,4 +16,9 @@ const storage = new CloudinaryStorage({
   },
 });
 
+/**
+ * Middleware to handle upload file to cloudinary.
+ * @type {CloudinaryStorage}
+ */
+
 export const upload = multer({ storage });

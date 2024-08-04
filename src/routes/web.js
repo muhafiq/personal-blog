@@ -17,6 +17,7 @@ import {
   getEmailerPage,
   getMediaPage,
   processLogout,
+  deletePost,
 } from "../controller/web-private-controller.js";
 import { upload } from "../config/multer-cloudinary.js";
 import isAuthenticated from "../middleware/is-authenticated.js";
@@ -79,6 +80,6 @@ router.post(
   }
 );
 router.patch("/edit/:id", isAuthenticated);
-router.delete("/delete/:id", isAuthenticated);
+router.delete("/delete/:id", isAuthenticated, deletePost);
 
 export default router;

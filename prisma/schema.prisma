@@ -42,14 +42,14 @@ model Post {
   title String @db.VarChar(255)
   slug String @db.VarChar(255) @unique
   content String @db.Text
-  category String @db.VarChar(50)
+  catId String @db.VarChar(50)
   thumbnail String @db.VarChar(255)
   draft Boolean @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   postImages PostImage[]
 
-  // category       Category    @relation(fields: [catId], references: [catId])
+  category       Category    @relation(fields: [catId], references: [catId])
 }
 
 model PostImage {
@@ -62,11 +62,11 @@ model PostImage {
   post       Post    @relation(fields: [postId], references: [postId])
 }
 
-// model Category {
-//   catId String @db.VarChar(36) @id @default(uuid())
-//   name String @db.VarChar(100)
-//   createdAt DateTime @default(now())
-//   updatedAt DateTime @updatedAt
+model Category {
+  catId String @db.VarChar(36) @id @default(uuid())
+  name String @db.VarChar(100)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-//   posts Post[]
-// }
+  posts Post[]
+}

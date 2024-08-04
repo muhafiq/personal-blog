@@ -5,6 +5,8 @@ import ResponseError from "../error/response-error.js";
  */
 
 export default (error, req, res, next) => {
+  console.error(error);
+
   if (error instanceof ResponseError) {
     if (error.type === "api") {
       res.send("api error!");

@@ -1,7 +1,19 @@
-<main class="flex justify-center w-full p-4">
+<main id="manage-container" class="flex justify-center w-full p-4 relative">
   <div class="w-full max-w-6xl">
-    <h1 class="py-6 text-2xl font-bold text-center">Manage your articles.</h1>
+    <% if (typeof success !== 'undefined' && success) { %>
+    <div
+      id="alert-notification"
+      class="flex items-center w-full gap-4 px-4 py-3 text-sm border rounded border-emerald-100 bg-emerald-50 text-emerald-600"
+      role="alert"
+    >
+      <i class="fa-regular fa-circle-check"></i>
+      <p><%= success %></p>
+      <i id="close-alert" class="fa-solid fa-xmark ml-auto cursor-pointer"></i>
+    </div>
+    <% } %> <%- include("../../partials/dashboard/deleteModal.ejs") %>
 
+    <h1 class="py-6 text-2xl font-bold text-center">Manage your articles.</h1>
+    <p>Total Article: <%= posts.length %></p>
     <div class="w-full overflow-x-auto p-4">
       <table
         class="w-full text-left border border-collapse rounded sm:border-separate border-slate-200"
@@ -60,7 +72,7 @@
             <td
               class="h-12 px-6 text-sm transition duration-300 border-t border-l first:border-l-0 border-slate-200 stroke-slate-500 text-black"
             >
-              <%= post.category %>
+              <%= post.category.name %>
             </td>
             <td
               class="h-12 px-6 text-sm transition duration-300 border-t border-l first:border-l-0 border-slate-200 stroke-slate-500 text-black"
@@ -72,7 +84,9 @@
                   >Edit</a
                 >
                 <button
-                  class="px-2 py-1 rounded bg-red-100 border border-red-500 transition-colors hover:bg-red-200 hover:border-red-600"
+                  data-id="<%= post.postId %>"
+                  type="submit"
+                  class="toggle-modal px-2 py-1 rounded bg-red-100 border border-red-500 transition-colors hover:bg-red-200 hover:border-red-600"
                 >
                   Delete
                 </button>
@@ -85,3 +99,5 @@
     </div>
   </div>
 </main>
+
+<script src="/scripts/manage.js"></script>

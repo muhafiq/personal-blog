@@ -15,15 +15,13 @@ export const getIndexPage = asyncHandler(
    * @param {import("express").NextFunction} next - Express next middleware function.
    */
   async (req, res, next) => {
-    const posts = await prismaClient.post.findMany({
-      take: 5,
-      orderBy: { createdAt: "desc" },
-      select: { title: true, content: true, slug: true, thumbnail: true },
-      where: { draft: false },
-    });
-
-    if (!posts) {
-    }
+    const posts =
+      (await prismaClient.post.findMany({
+        take: 5,
+        orderBy: { createdAt: "desc" },
+        select: { title: true, content: true, slug: true, thumbnail: true },
+        where: { draft: false },
+      })) || [];
 
     res.render("pages/index", { posts });
   }
@@ -57,11 +55,32 @@ export const getBlogPage = asyncHandler(
    * @param {import("express").NextFunction} next - Express next middleware function.
    */
   async (req, res, next) => {
-    const posts = await prismaClient.post.findMany({
-      take: 30,
-      orderBy: { createdAt: "desc" },
-      where: { draft: false },
-    });
+    const { category } = req.query;
+
+    let posts = [];
+
+    if (category) {
+      posts =
+        (await prismaClient.post.findMany({
+          where: {
+            category: {
+              name: category,
+            },
+            draft: false,
+          },
+          take: 30,
+          orderBy: { createdAt: "desc" },
+          include: { category: true },
+        })) || [];
+    } else {
+      posts =
+        (await prismaClient.post.findMany({
+          take: 30,
+          orderBy: { createdAt: "desc" },
+          where: { draft: false },
+          include: { category: true },
+        })) || [];
+    }
 
     res.render("pages/blog", { posts });
   }
@@ -79,12 +98,13 @@ export const getSinglePost = asyncHandler(
    * @param {import("express").NextFunction} next - Express next middleware function.
    */
   async (req, res, next) => {
-    const post = await prismaClient.post.findUnique({
-      where: { slug: req.params.slug },
-      include: {
-        postImages: true,
-      },
-    });
+    const post =
+      (await prismaClient.post.findUnique({
+        where: { slug: req.params.slug },
+        include: {
+          postImages: true,
+        },
+      })) || {};
 
     res.render("pages/singlePost", { post, layout: "layouts/post" });
   }
@@ -128,8 +148,6 @@ export const processLogin = asyncHandler(
     }
 
     req.session.user = email;
-
-    console.log(req.session.user);
 
     req.flash("success", "Welcome. Have a nice day!");
     res.redirect("/dashboard");

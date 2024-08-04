@@ -18,12 +18,10 @@ export const getDashboardPage = asyncHandler(
       select: { draft: true },
     });
 
-    console.log(req.session.user);
-
     res.render("pages/dashboard/index", {
       layout: "layouts/dashboard",
       title: "Dashboard",
-      postCount: posts.length,
+      postCount: posts.filter((p) => !p.draft).length,
       postDraft: posts.filter((p) => p.draft).length,
     });
   }
@@ -76,9 +74,11 @@ export const getManagePage = asyncHandler(
    * @param {import("express").NextFunction} next - Express next middleware function.
    */
   async (req, res, next) => {
-    const posts = await prismaClient.post.findMany({
-      orderBy: { createdAt: "desc" },
-    });
+    const posts =
+      (await prismaClient.post.findMany({
+        orderBy: { createdAt: "desc" },
+        include: { category: true },
+      })) || [];
 
     posts.sort((a, b) => b.draft - a.draft);
 
@@ -140,9 +140,18 @@ export const getMediaPage = asyncHandler(
    * @param {import("express").NextFunction} next - Express next middleware function.
    */
   async (req, res, next) => {
+    const thumbnails =
+      (await prismaClient.post.findMany({
+        select: { thumbnail: true, title: true, createdAt: true },
+      })) || [];
+
+    const images = (await prismaClient.postImage.findMany()) || [];
+
     res.render("pages/dashboard/media", {
       layout: "layouts/dashboard",
       title: "Media & Files",
+      thumbnails,
+      images,
     });
   }
 );
@@ -167,5 +176,35 @@ export const processLogout = asyncHandler(
 
       res.redirect("/login");
     });
+  }
+);
+
+/**
+ * Controller for handle delete post.
+ */
+
+export const deletePost = asyncHandler(
+  /**
+   * @function
+   * @param {import("express").Request} req - Express request object.
+   * @param {import("express").Response} res - Express response object.
+   * @param {import("express").NextFunction} next - Express next middleware function.
+   */
+  async (req, res, next) => {
+    const { id: postId } = req.params;
+
+    if (!postId) {
+      req.flash("error", "Failed to delete post, not provide an id!");
+      res.redirect("/manage");
+    }
+
+    await prismaClient.$transaction(async (prismaClient) => {
+      await prismaClient.postImage.deleteMany({ where: { postId } });
+
+      await prismaClient.post.delete({ where: { postId } });
+    });
+
+    req.flash("success", "Post deleted successfully!");
+    res.redirect("/manage");
   }
 );

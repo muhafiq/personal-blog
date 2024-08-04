@@ -8,6 +8,7 @@ import helmet from "helmet";
 import morgan from "morgan";
 import flash from "connect-flash";
 import session from "./config/session.js";
+import methodOverride from "method-override";
 
 /**
  * Custom modules.
@@ -49,6 +50,7 @@ app.use(express.static("public"));
 app.use(expressEjsLayouts);
 app.use(morgan("common"));
 app.use(flash());
+app.use(methodOverride("_method"));
 
 /**
  * Session

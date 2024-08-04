@@ -7,11 +7,12 @@
       alt="blog thumbnail"
     />
   </a>
-  <span
+  <a
+    href="/blog?category=<%= post.category.name %>"
     class="inline-flex px-4 py-2 text-xs font-semibold tracking-widest uppercase rounded-full text-rose-500 bg-rose-100 mt-4"
   >
-    <%= post.category %>
-  </span>
+    <%= post.category.name %>
+  </a>
   <p class="mt-4 text-xl font-semibold">
     <a href="/<%= post.slug %>" title="" class="text-black"
       ><%= post.title %></a

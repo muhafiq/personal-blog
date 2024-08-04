@@ -6,6 +6,11 @@
     interest. I hope you enjoy your stay and find the content informative and
     engaging.
   </p>
+
+  <% if (!posts.length) { %>
+  <p class="text-center my-6">No posts yet.</p>
+  <% } %>
+
   <div
     class="grid max-w-md grid-cols-1 mx-auto lg:max-w-full lg:grid-cols-2 gap-8"
   >

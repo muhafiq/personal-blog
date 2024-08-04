@@ -10,6 +10,16 @@
   -webkit-box-orient: vertical;
 }
 
+.hide-scrollbar {
+  overflow-x: scroll;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
 * {
   @apply selection:bg-sky-500 selection:text-white;
 }
