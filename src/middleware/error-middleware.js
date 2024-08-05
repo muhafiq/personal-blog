@@ -19,7 +19,11 @@ export default (error, req, res, next) => {
         data: null,
       });
     } else if (error.type === "web") {
-      res.status(error.code).send(error.message);
+      res.status(error.code).render("pages/error", {
+        message: error.message,
+        code: error.code,
+        layout: false,
+      });
     } else {
       res.send("server error!");
     }

@@ -101,10 +101,10 @@ export const getSinglePost = asyncHandler(
     const post =
       (await prismaClient.post.findUnique({
         where: { slug: req.params.slug },
-        include: {
-          postImages: true,
-        },
-      })) || {};
+      })) || false;
+
+    if (post.draft || !post)
+      throw new ResponseError("web", 404, "Page not found!");
 
     res.render("pages/singlePost", { post, layout: "layouts/post" });
   }

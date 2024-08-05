@@ -57,38 +57,40 @@
   <div>
     <h2 class="py-4 text-xl">Media & Files in Blog Content</h2>
 
-    <div
-      class="grid max-w-md grid-cols-1 mx-auto lg:max-w-full md:grid-cols-2 lg:grid-cols-3 gap-4"
-    >
-      <% images.forEach(image => { %>
-      <div
-        class="overflow-hidden bg-white rounded shadow-md text-slate-500 shadow-slate-200 w-full max-w-[24rem]"
-      >
-        <figure class="relative">
-          <img
-            loading="lazy"
-            src="<%= image.fileName %>"
-            alt="card image"
-            class="aspect-auto w-full"
-          />
-          <figcaption
-            class="absolute bottom-0 left-0 w-full p-6 text-white bg-gradient-to-t from-slate-900"
+    <div>
+      <div class="container m-auto">
+        <div class="grid grid-cols-4 gap-4 md:grid-cols-8 lg:grid-cols-12">
+          <% images.forEach(image => { %>
+          <div
+            class="col-span-4 overflow-hidden bg-white rounded shadow-md text-slate-500 shadow-slate-200 w-full max-w-[24rem]"
           >
-            <h3 class="text-lg font-medium"><%= image.imageId %></h3>
-          </figcaption>
-          <a
-            href="<%= image.fileName %>"
-            target="_blank"
-            class="absolute top-4 right-4 cursor-pointer"
-          >
-            <i
-              class="fa-solid fa-arrow-up-right-from-square bg-white rounded-full shadow p-2"
-            >
-            </i>
-          </a>
-        </figure>
+            <figure class="relative">
+              <img
+                loading="lazy"
+                src="<%= image.fileName %>"
+                alt="card image"
+                class="aspect-auto w-full object-cover object-center"
+              />
+              <figcaption
+                class="absolute bottom-0 left-0 w-full p-6 text-white bg-gradient-to-t from-slate-900"
+              >
+                <h3 class="text-lg font-medium"><%= image.imageId %></h3>
+              </figcaption>
+              <a
+                href="<%= image.fileName %>"
+                target="_blank"
+                class="absolute top-4 right-4 cursor-pointer"
+              >
+                <i
+                  class="fa-solid fa-arrow-up-right-from-square bg-white rounded-full shadow p-2"
+                >
+                </i>
+              </a>
+            </figure>
+          </div>
+          <% }) %>
+        </div>
       </div>
-      <% }) %>
     </div>
   </div>
 </main>

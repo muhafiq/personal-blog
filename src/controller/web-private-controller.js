@@ -15,15 +15,18 @@ export const getDashboardPage = asyncHandler(
    * @param {import("express").NextFunction} next - Express next middleware function.
    */
   async (req, res, next) => {
-    const posts = await prismaClient.post.findMany({
-      select: { draft: true },
+    const postCount = await prismaClient.post.count();
+
+    // const draftPosts = posts.filter((post) => post.draft);
+    const draftPosts = await prismaClient.post.findMany({
+      where: { draft: true },
     });
 
     res.render("pages/dashboard/index", {
       layout: "layouts/dashboard",
       title: "Dashboard",
-      postCount: posts.filter((p) => !p.draft).length,
-      postDraft: posts.filter((p) => p.draft).length,
+      postCount,
+      draftPosts,
     });
   }
 );

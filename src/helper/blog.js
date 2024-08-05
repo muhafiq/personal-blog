@@ -1,7 +1,6 @@
 import fetch from "node-fetch";
 import FormData from "form-data";
 import { Buffer } from "buffer";
-import prismaClient from "../config/database.js";
 
 export const formatBlogContent = async (content, req) => {
   const imgTags = content.match(/<img [^>]*src="data:image\/[^>]*>/g) || [];
