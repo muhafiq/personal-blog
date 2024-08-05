@@ -20,16 +20,6 @@ datasource db {
 //   directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
 // }
 
-// model User {
-//   userId String @db.VarChar(36) @id @default(uuid())
-//   username String @db.VarChar(100) @unique 
-//   name String @db.VarChar(255)
-//   email String @db.VarChar(255) @unique
-//   password String @db.Text
-//   createdAt DateTime @default(now())
-//   updatedAt DateTime @updatedAt
-// }
-
 model Session {
   id        String   @id
   sid       String   @unique
@@ -41,7 +31,7 @@ model Post {
   postId String @db.VarChar(36) @id @default(uuid())
   title String @db.VarChar(255)
   slug String @db.VarChar(255) @unique
-  content String @db.Text
+  content String? @db.Text
   catId String @db.VarChar(50)
   thumbnail String @db.VarChar(255)
   draft Boolean @default(false)

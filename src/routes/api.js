@@ -8,11 +8,7 @@ import {
 
 const router = Router();
 
-router.post(
-  "/upload",
-  [isAuthenticated, upload.single("images")],
-  uploadBlogImages
-);
+router.post("/upload", upload.single("images"), uploadBlogImages);
 
 router.post("/category", isAuthenticated, addNewCategory);
 

@@ -1,5 +1,6 @@
 import asyncHandler from "../error/async-handler.js";
 import prismaClient from "../config/database.js";
+import ResponseError from "../error/response-error.js";
 
 /**
  * Controller to handle upload image in blog content.
@@ -16,7 +17,7 @@ export const uploadBlogImages = asyncHandler(
    * @param {import("express").NextFunction} next - Express next middleware function.
    */
   async (req, res, next) => {
-    res.status(200).json({
+    res.status(201).json({
       message: "Success upload image!",
       file: req.file.path,
     });
@@ -34,5 +35,19 @@ export const addNewCategory = asyncHandler(
    * @param {import("express").Response} res - Express response object.
    * @param {import("express").NextFunction} next - Express next middleware function.
    */
-  async (req, res, next) => {}
+  async (req, res, next) => {
+    const { category } = req.body;
+
+    if (!category)
+      throw new ResponseError("api", 400, "Category name required!");
+
+    const newCategory = await prismaClient.category.create({
+      data: { name: category },
+    });
+
+    res.status(201).json({
+      message: "Success add new category.",
+      data: newCategory,
+    });
+  }
 );

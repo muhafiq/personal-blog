@@ -1,6 +1,7 @@
 import prismaClient from "../config/database.js";
 import asyncHandler from "../error/async-handler.js";
 import ResponseError from "../error/response-error.js";
+import { formatBlogContent } from "../helper/blog.js";
 
 /**
  * Controller for rendering the dashboard page.
@@ -39,9 +40,12 @@ export const getComposePage = asyncHandler(
    * @param {import("express").NextFunction} next - Express next middleware function.
    */
   async (req, res, next) => {
+    const categories = (await prismaClient.category.findMany()) || [];
+
     res.render("pages/dashboard/compose", {
       layout: "layouts/dashboard",
       title: "Compose",
+      categories,
     });
   }
 );
@@ -176,6 +180,53 @@ export const processLogout = asyncHandler(
 
       res.redirect("/login");
     });
+  }
+);
+
+/**
+ * Controller for handle create a new post.
+ */
+
+export const createPost = asyncHandler(
+  /**
+   * @function
+   * @param {import("express").Request} req - Express request object.
+   * @param {import("express").Response} res - Express response object.
+   * @param {import("express").NextFunction} next - Express next middleware function.
+   */
+  async (req, res, next) => {
+    const { title, category } = req.body;
+
+    const draft = req.body.draft === "on" ? true : false;
+
+    // create slug from title
+    const slug = title.toLowerCase().split(" ").join("-");
+
+    const { updatedContent, uploadedImages } = await formatBlogContent(
+      req.body.content,
+      req
+    );
+
+    // create new post without content
+    const newPost = await prismaClient.post.create({
+      data: {
+        title,
+        catId: category,
+        draft,
+        slug,
+        thumbnail: req.file.path,
+        content: updatedContent,
+      },
+    });
+
+    uploadedImages.forEach(async (img) => {
+      await prismaClient.postImage.create({
+        data: { fileName: img, postId: newPost.postId },
+      });
+    });
+
+    req.flash("success", "New post created successfully!");
+    res.redirect("/manage");
   }
 );
 

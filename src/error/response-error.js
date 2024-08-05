@@ -12,6 +12,8 @@ export default class ResponseError extends Error {
    * @param {string} message - Error message.
    */
   constructor(type = "api", code, message) {
+    message = message ? message : "Internal Server Error!";
+
     super(message);
     /**
      * Error type.
@@ -23,6 +25,6 @@ export default class ResponseError extends Error {
      * Error code.
      * @type {number} - A http status code.
      */
-    this.code = code;
+    this.code = code || 500;
   }
 }

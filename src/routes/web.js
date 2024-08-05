@@ -18,6 +18,7 @@ import {
   getMediaPage,
   processLogout,
   deletePost,
+  createPost,
 } from "../controller/web-private-controller.js";
 import { upload } from "../config/multer-cloudinary.js";
 import isAuthenticated from "../middleware/is-authenticated.js";
@@ -72,12 +73,7 @@ router.get("/:slug", getSinglePost);
 router.post(
   "/compose",
   [isAuthenticated, upload.single("thumbnail")],
-  (req, res) => {
-    console.log(req.body);
-    console.log(req.file);
-
-    res.redirect("/manage");
-  }
+  createPost
 );
 router.patch("/edit/:id", isAuthenticated);
 router.delete("/delete/:id", isAuthenticated, deletePost);

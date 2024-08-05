@@ -39,7 +39,7 @@ export const getAboutPage = asyncHandler(
    * @param {import("express").NextFunction} next - Express next middleware function.
    */
   async (req, res, next) => {
-    res.render("pages/about");
+    res.render("pages/about", { title: "About - Muhafiq's Blog" });
   }
 );
 
@@ -82,7 +82,7 @@ export const getBlogPage = asyncHandler(
         })) || [];
     }
 
-    res.render("pages/blog", { posts });
+    res.render("pages/blog", { posts, title: "All Article - Muhafiq's Blog" });
   }
 );
 

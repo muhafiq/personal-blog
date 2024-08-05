@@ -37,15 +37,14 @@ app.use(helmet());
 app.use(
   helmet.contentSecurityPolicy({
     directives: {
-      defaultSrc: ["'self'"],
-      imgSrc: ["'self'", "*"],
+      defaultSrc: ["'self'", "*"],
       scriptSrc: ["'self'", "*"],
-      imgSrc: ["'self'", "data:", "https:"],
+      imgSrc: ["'self'", "data:", "https:", "*"],
     },
   })
 );
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
+app.use(express.urlencoded({ extended: true, limit: "10mb" }));
+app.use(express.json({ limit: "10mb" }));
 app.use(express.static("public"));
 app.use(expressEjsLayouts);
 app.use(morgan("common"));
