@@ -103,8 +103,10 @@ export const getSinglePost = asyncHandler(
         where: { slug: req.params.slug },
       })) || false;
 
-    if (post.draft || !post)
-      throw new ResponseError("web", 404, "Page not found!");
+    if (!post) throw new ResponseError("web", 404, "Page not found!");
+
+    if (post.draft && !req.session.user)
+      throw new ResponseError("web", 401, "Unathorized Resource!");
 
     res.render("pages/singlePost", { post, layout: "layouts/post" });
   }
