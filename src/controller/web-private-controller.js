@@ -1,7 +1,6 @@
 import prismaClient from "../config/database.js";
 import asyncHandler from "../error/async-handler.js";
 import ResponseError from "../error/response-error.js";
-import { formatBlogContent } from "../helper/blog.js";
 
 /**
  * Controller for rendering the dashboard page.
@@ -65,7 +64,18 @@ export const getEditPostPage = asyncHandler(
    * @param {import("express").NextFunction} next - Express next middleware function.
    */
   async (req, res, next) => {
-    res.render("pages/dashboard/editPost", { layout: "layouts/dashboard" });
+    const { id: postId } = req.params;
+
+    const post =
+      (await prismaClient.post.findUnique({ where: { postId } })) || {};
+
+    const categories = (await prismaClient.category.findMany()) || [];
+
+    res.render("pages/dashboard/editPost", {
+      layout: "layouts/dashboard",
+      post,
+      categories,
+    });
   }
 );
 
@@ -198,38 +208,68 @@ export const createPost = asyncHandler(
    * @param {import("express").NextFunction} next - Express next middleware function.
    */
   async (req, res, next) => {
-    const { title, category } = req.body;
+    const { title, category, content } = req.body;
 
     const draft = req.body.draft === "on" ? true : false;
 
     // create slug from title
     const slug = title.toLowerCase().split(" ").join("-");
 
-    const { updatedContent, uploadedImages } = await formatBlogContent(
-      req.body.content,
-      req
-    );
-
-    // create new post without content
-    const newPost = await prismaClient.post.create({
+    await prismaClient.post.create({
       data: {
         title,
         catId: category,
         draft,
         slug,
         thumbnail: req.file.path,
-        content: updatedContent,
+        content,
       },
-    });
-
-    uploadedImages.forEach(async (img) => {
-      await prismaClient.postImage.create({
-        data: { fileName: img, postId: newPost.postId },
-      });
     });
 
     req.flash("success", "New post created successfully!");
     res.redirect("/manage");
+  }
+);
+
+/**
+ * Controller for handle update post.
+ */
+
+export const updatePost = asyncHandler(
+  /**
+   * @function
+   * @param {import("express").Request} req - Express request object.
+   * @param {import("express").Response} res - Express response object.
+   * @param {import("express").NextFunction} next - Express next middleware function.
+   */
+  async (req, res, next) => {
+    const { id: postId } = req.params;
+
+    if (!postId) {
+      req.flash("error", "Failed to update post, not provide an id!");
+      res.redirect(`/edit/${postId}`);
+    }
+
+    console.log(req.body);
+
+    const { title, category, content, thumbnailUrl } = req.body;
+    const draft = req.body.draft === "on" ? true : false;
+    const slug = title.toLowerCase().split(" ").join("-");
+
+    await prismaClient.post.update({
+      where: { postId },
+      data: {
+        title,
+        catId: category,
+        draft,
+        slug,
+        thumbnail: req.file ? req.file.path : thumbnailUrl,
+        content,
+      },
+    });
+
+    req.flash("success", "Post updated successfully!");
+    res.redirect(`/edit/${postId}`);
   }
 );
 

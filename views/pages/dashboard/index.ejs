@@ -1,99 +1,101 @@
-<main class="p-4">
-  <% if (typeof success !== 'undefined' && success) { %>
-  <div
-    id="alert-notification"
-    class="flex items-center w-full gap-4 px-4 py-3 text-sm border rounded border-emerald-100 bg-emerald-50 text-emerald-600"
-    role="alert"
-  >
-    <i class="fa-regular fa-circle-check"></i>
-    <p><%= success %></p>
-    <i id="close-alert" class="fa-solid fa-xmark ml-auto cursor-pointer"></i>
-  </div>
-  <% } %>
-
-  <h1 class="pt-6 pb-10 font-bold text-2xl text-center">
-    Welcome to Dashboard!
-  </h1>
-
-  <div class="w-full max-w-6xl mx-auto mb-6">
-    <div class="flex flex-col gap-4 lg:flex-row">
-      <div
-        class="bg-gray-50 shadow-md rounded-lg p-6 flex-1 flex items-center gap-4"
-      >
-        <div class="text-blue-600 text-4xl mr-4">
-          <i class="fas fa-file-alt"></i>
-        </div>
-        <div>
-          <h2 class="text-xl font-bold mb-2">Published Articles</h2>
-          <p class="text-4xl font-semibold text-blue-600"><%= postCount %></p>
-        </div>
-      </div>
-
-      <div
-        class="bg-gray-50 shadow-md rounded-lg p-6 flex-1 flex items-center gap-4"
-      >
-        <div class="text-yellow-500 text-4xl mr-4">
-          <i class="fas fa-file"></i>
-        </div>
-        <div>
-          <h2 class="text-xl font-bold mb-2">Your Draft</h2>
-          <p class="text-4xl font-semibold text-yellow-500">
-            <%= draftPosts.length %>
-          </p>
-        </div>
-      </div>
-
-      <div
-        class="bg-gray-50 shadow-md rounded-lg p-6 flex-1 flex items-center gap-4"
-      >
-        <div class="text-green-600 text-4xl mr-4">
-          <i class="fas fa-users"></i>
-        </div>
-        <div>
-          <h2 class="text-xl font-bold mb-2">Today's visitors</h2>
-          <p class="text-4xl font-semibold text-green-600">7890</p>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="w-full max-w-6xl mx-auto">
-    <h2 class="font-bold mb-4 text-lg">Your Draft.</h2>
-
+<div class="flex justify-center">
+  <main class="p-4 max-w-5xl">
+    <% if (typeof success !== 'undefined' && success) { %>
     <div
-      class="flex items-center px-4 py-2 overflow-auto w-full gap-4 hide-scrollbar"
+      id="alert-notification"
+      class="flex items-center w-full gap-4 px-4 py-3 text-sm border rounded border-emerald-100 bg-emerald-50 text-emerald-600"
+      role="alert"
     >
-      <% draftPosts.forEach(post => { %>
-      <div
-        class="overflow-hidden bg-white rounded shadow-md text-slate-500 shadow-slate-200 min-w-80 max-w-sm"
-      >
-        <figure>
-          <img
-            src="<%= post.thumbnail %>"
-            alt="card post thumbnail"
-            class="aspect-video w-full object-cover object-center"
-          />
-        </figure>
-        <div class="px-6 py-2">
-          <header class="mb-2">
-            <h3 class="text-xl font-medium text-slate-700">
-              <%= post.title %>
-            </h3>
-          </header>
-          <p class="two-line-ellipsis">
-            <%- lim(takeFirstParagraph(post.content), 30) %>
-          </p>
+      <i class="fa-regular fa-circle-check"></i>
+      <p><%= success %></p>
+      <i id="close-alert" class="fa-solid fa-xmark ml-auto cursor-pointer"></i>
+    </div>
+    <% } %>
+
+    <h1 class="pt-6 pb-10 font-bold text-2xl text-center">
+      Welcome to Dashboard!
+    </h1>
+
+    <div class="w-full mx-auto mb-6">
+      <div class="flex flex-col gap-4 lg:flex-row">
+        <div
+          class="bg-gray-50 shadow-md rounded-lg p-6 flex-1 flex items-center gap-4"
+        >
+          <div class="text-blue-600 text-4xl mr-4">
+            <i class="fas fa-file-alt"></i>
+          </div>
+          <div>
+            <h2 class="text-xl font-bold mb-2">Published Articles</h2>
+            <p class="text-4xl font-semibold text-blue-600"><%= postCount %></p>
+          </div>
         </div>
-        <div class="flex justify-end p-6 pt-0">
-          <a
-            href="/edit/<%= post.postId %>"
-            class="inline-flex items-center justify-center w-full h-10 gap-2 px-5 text-sm font-medium tracking-wide text-white transition duration-300 rounded focus-visible:outline-none whitespace-nowrap bg-sky-500 hover:bg-sky-600 focus:bg-sky-700 disabled:cursor-not-allowed disabled:border-sky-300 disabled:bg-sky-300 disabled:shadow-none"
-          >
-            <span>Continue Writing!</span>
-          </a>
+
+        <div
+          class="bg-gray-50 shadow-md rounded-lg p-6 flex-1 flex items-center gap-4"
+        >
+          <div class="text-yellow-500 text-4xl mr-4">
+            <i class="fas fa-file"></i>
+          </div>
+          <div>
+            <h2 class="text-xl font-bold mb-2">Your Draft</h2>
+            <p class="text-4xl font-semibold text-yellow-500">
+              <%= draftPosts.length %>
+            </p>
+          </div>
+        </div>
+
+        <div
+          class="bg-gray-50 shadow-md rounded-lg p-6 flex-1 flex items-center gap-4"
+        >
+          <div class="text-green-600 text-4xl mr-4">
+            <i class="fas fa-users"></i>
+          </div>
+          <div>
+            <h2 class="text-xl font-bold mb-2">Today's visitors</h2>
+            <p class="text-4xl font-semibold text-green-600">7890</p>
+          </div>
         </div>
       </div>
-      <% }) %>
     </div>
-  </div>
-</main>
+
+    <div class="w-full mx-auto">
+      <h2 class="font-bold mb-4 text-lg">Your Draft.</h2>
+
+      <div
+        class="flex items-center px-4 py-2 overflow-auto w-full gap-4 hide-scrollbar"
+      >
+        <% draftPosts.forEach(post => { %>
+        <div
+          class="overflow-hidden bg-white rounded shadow-md text-slate-500 shadow-slate-200 min-w-80 max-w-sm"
+        >
+          <figure>
+            <img
+              src="<%= post.thumbnail %>"
+              alt="card post thumbnail"
+              class="aspect-video w-full object-cover object-center"
+            />
+          </figure>
+          <div class="px-6 py-2">
+            <header class="mb-2">
+              <h3 class="text-xl font-medium text-slate-700">
+                <%= lim(post.title, 40) %>
+              </h3>
+            </header>
+            <p class="two-line-ellipsis">
+              <%- lim(takeFirstParagraph(post.content), 30) %>
+            </p>
+          </div>
+          <div class="flex justify-end p-6 pt-0">
+            <a
+              href="/edit/<%= post.postId %>"
+              class="inline-flex items-center justify-center w-full h-10 gap-2 px-5 text-sm font-medium tracking-wide text-white transition duration-300 rounded focus-visible:outline-none whitespace-nowrap bg-sky-500 hover:bg-sky-600 focus:bg-sky-700 disabled:cursor-not-allowed disabled:border-sky-300 disabled:bg-sky-300 disabled:shadow-none"
+            >
+              <span>Continue Writing!</span>
+            </a>
+          </div>
+        </div>
+        <% }) %>
+      </div>
+    </div>
+  </main>
+</div>

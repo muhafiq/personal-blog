@@ -1,1 +1,33 @@
-<h1>edit page</h1>
+<main class="w-full min-h-screen p-4 flex justify-center">
+  <div id="wrapper" class="w-full max-w-4xl">
+    <% if (typeof success !== 'undefined' && success) { %>
+    <div
+      id="alert-notification"
+      class="flex items-center w-full gap-4 px-4 py-3 text-sm border rounded border-emerald-100 bg-emerald-50 text-emerald-600 hidden"
+      role="alert"
+    >
+      <i class="fa-regular fa-circle-check"></i>
+      <p><%= success %></p>
+      <i id="close-alert" class="fa-solid fa-xmark ml-auto cursor-pointer"></i>
+    </div>
+    <% } %>
+    <!-- . -->
+    <% if (typeof error !== 'undefined' && error) { %>
+    <div
+      id="alert-notification"
+      class="flex items-center w-full gap-4 px-4 py-3 text-sm text-red-600 border border-red-200 rounded bg-red-100 hidden"
+      role="alert"
+    >
+      <i class="fa-solid fa-circle-exclamation"></i>
+      <p><%= error %></p>
+      <i id="close-alert" class="fa-solid fa-xmark ml-auto cursor-pointer"></i>
+    </div>
+    <% } %>
+
+    <h1 class="py-6 text-2xl font-bold text-center">Edit article.</h1>
+    <%- include("../../partials/dashboard/editor.ejs", { post, categories,
+    action: `/edit/${post.postId}?_method=PATCH` }) %>
+  </div>
+</main>
+
+<script src="/scripts/editor.js"></script>

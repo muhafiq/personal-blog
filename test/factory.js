@@ -58,10 +58,11 @@ const createSamplePosts = async (numPosts, imagesPerPost) => {
             fileName: faker.image.url(),
           })),
         },
+        draft: Math.random() >= 0.5,
       },
     });
     console.log(`Created Post with ID: ${post.postId}`);
   }
 };
 
-await createSamplePosts(50, 2);
+await createSamplePosts(20, 2);

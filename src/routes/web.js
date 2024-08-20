@@ -19,6 +19,7 @@ import {
   processLogout,
   deletePost,
   createPost,
+  updatePost,
 } from "../controller/web-private-controller.js";
 import { upload } from "../config/multer-cloudinary.js";
 import isAuthenticated from "../middleware/is-authenticated.js";
@@ -75,7 +76,12 @@ router.post(
   [isAuthenticated, upload.single("thumbnail")],
   createPost
 );
-router.patch("/edit/:id", isAuthenticated);
+router.patch(
+  "/edit/:id",
+  isAuthenticated,
+  upload.single("thumbnail"),
+  updatePost
+);
 router.delete("/delete/:id", isAuthenticated, deletePost);
 
 export default router;

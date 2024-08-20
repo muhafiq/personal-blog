@@ -33,7 +33,7 @@
 }
 
 #single-post-content a {
-  @apply text-blue-500 underline hover:text-blue-700;
+  @apply text-blue-500 underline hover:text-blue-700 transition-colors duration-300 !important;
 }
 
 #single-post-content > h1,
@@ -83,4 +83,13 @@
 
 #single-post-content > ul > li {
   @apply list-disc ml-8 mb-1;
+}
+
+#single-post-content .ql-code-block-container {
+  @apply bg-gray-900 text-white text-xs font-mono p-4 rounded-lg overflow-x-auto;
+  padding-left: 1rem;
+}
+
+.ql-code-block {
+  padding-left: inherit;
 }

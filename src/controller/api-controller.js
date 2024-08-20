@@ -17,6 +17,13 @@ export const uploadBlogImages = asyncHandler(
    * @param {import("express").NextFunction} next - Express next middleware function.
    */
   async (req, res, next) => {
+    // await prismaClient.postImage.create({
+    //   data: {
+    //     fileName: req.file.path,
+    //     postId: "",
+    //   },
+    // });
+
     res.status(201).json({
       message: "Success upload image!",
       file: req.file.path,
