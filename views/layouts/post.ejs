@@ -4,7 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>
-      <%= typeof title !== 'undefined' && title ? title : 'Muhafiq\'s Blog' %>
+      <%= typeof post !== 'undefined' ? post.title + ' - Muhafiq\'s Blog' :
+      'Muhafiq\'s Blog' %>
     </title>
     <link
       rel="stylesheet"

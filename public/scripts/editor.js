@@ -134,6 +134,7 @@ if (window.location.pathname.includes("/edit")) {
   const previewContainer = document.getElementById("preview-container");
   const img = document.createElement("img");
   img.src = document.getElementById("thumbnail-source").value;
+  img.loading = "lazy";
   img.classList.add(
     "aspect-video",
     "object-center",
@@ -144,7 +145,3 @@ if (window.location.pathname.includes("/edit")) {
   );
   previewContainer.appendChild(img);
 }
-// document.addEventListener("DOMContentLoaded", () => {
-//   const content = document.getElementById("content");
-//   quill.root.innerHTML = content.value;
-// });
