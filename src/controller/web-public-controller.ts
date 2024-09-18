@@ -1,20 +1,16 @@
-import prismaClient from "../config/database.js";
-import asyncHandler from "../error/async-handler.js";
+import { Request, Response, NextFunction } from "express";
+import prismaClient from "../config/database";
+import asyncHandler from "../error/async-handler";
 import bcrypt from "bcrypt";
-import ResponseError from "../error/response-error.js";
+import ResponseError from "../error/response-error";
+import { Post } from "@prisma/client";
 
 /**
  * Controller for rendering the index page with the latest blog posts.
  */
 
 export const getIndexPage = asyncHandler(
-  /**
-   * @function
-   * @param {import("express").Request} req - Express request object.
-   * @param {import("express").Response} res - Express response object.
-   * @param {import("express").NextFunction} next - Express next middleware function.
-   */
-  async (req, res, next) => {
+  async (req: Request, res: Response, next: NextFunction) => {
     const posts =
       (await prismaClient.post.findMany({
         take: 5,
@@ -32,13 +28,7 @@ export const getIndexPage = asyncHandler(
  */
 
 export const getAboutPage = asyncHandler(
-  /**
-   * @function
-   * @param {import("express").Request} req - Express request object.
-   * @param {import("express").Response} res - Express response object.
-   * @param {import("express").NextFunction} next - Express next middleware function.
-   */
-  async (req, res, next) => {
+  async (req: Request, res: Response, next: NextFunction) => {
     res.render("pages/about", { title: "About - Muhafiq's Blog" });
   }
 );
@@ -48,23 +38,19 @@ export const getAboutPage = asyncHandler(
  */
 
 export const getBlogPage = asyncHandler(
-  /**
-   * @function
-   * @param {import("express").Request} req - Express request object.
-   * @param {import("express").Response} res - Express response object.
-   * @param {import("express").NextFunction} next - Express next middleware function.
-   */
-  async (req, res, next) => {
+  async (req: Request, res: Response, next: NextFunction) => {
     const { category } = req.query;
 
-    let posts = [];
+    let posts: Array<Post> = [];
+
+    const categoryString = typeof category === "string" ? category : undefined;
 
     if (category) {
       posts =
         (await prismaClient.post.findMany({
           where: {
             category: {
-              name: category,
+              name: categoryString,
             },
             draft: false,
           },
@@ -91,14 +77,8 @@ export const getBlogPage = asyncHandler(
  */
 
 export const getSinglePost = asyncHandler(
-  /**
-   * @function
-   * @param {import("express").Request} req - Express request object.
-   * @param {import("express").Response} res - Express response object.
-   * @param {import("express").NextFunction} next - Express next middleware function.
-   */
-  async (req, res, next) => {
-    const post =
+  async (req: Request, res: Response, next: NextFunction) => {
+    const post: Post | boolean =
       (await prismaClient.post.findUnique({
         where: { slug: req.params.slug },
       })) || false;
@@ -117,13 +97,7 @@ export const getSinglePost = asyncHandler(
  */
 
 export const getLoginPage = asyncHandler(
-  /**
-   * @function
-   * @param {import("express").Request} req - Express request object.
-   * @param {import("express").Response} res - Express response object.
-   * @param {import("express").NextFunction} next - Express next middleware function.
-   */
-  async (req, res, next) => {
+  async (req: Request, res: Response, next: NextFunction) => {
     res.render("pages/login", { layout: false });
   }
 );
@@ -133,18 +107,21 @@ export const getLoginPage = asyncHandler(
  */
 
 export const processLogin = asyncHandler(
-  /**
-   * @function
-   * @param {import("express").Request} req - Express request object.
-   * @param {import("express").Response} res - Express response object.
-   * @param {import("express").NextFunction} next - Express next middleware function.
-   */
-  async (req, res, next) => {
+  async (req: Request, res: Response, next: NextFunction) => {
     const { email, password } = req.body;
 
-    const match = await bcrypt.compare(password, process.env.USER_PASSWORD);
+    const storedEmail: string | undefined = process.env.USER_EMAIL;
+    const storedPassword: string | undefined = process.env.USER_PASSWORD;
 
-    if (email !== process.env.USER_EMAIL || !match) {
+    if (!storedPassword || !storedEmail) {
+      throw new Error(
+        "Environment variables for user credentials are not set."
+      );
+    }
+
+    const match = await bcrypt.compare(password, storedPassword);
+
+    if (email !== storedEmail || !match) {
       req.flash("error", "Wrong credentials, go away!");
       return res.redirect("/login");
     }

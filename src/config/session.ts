@@ -1,13 +1,8 @@
-import session from "express-session";
+import session, { type Session } from "express-session";
 import { PrismaSessionStore } from "@quixo3/prisma-session-store";
-import prismaClient from "./database.js";
+import prismaClient from "./database";
 
-/**
- * Session store with prisma.
- * @type {PrismaSessionStore}
- */
-
-const sessionStore = new PrismaSessionStore(prismaClient, {
+const sessionStore: PrismaSessionStore = new PrismaSessionStore(prismaClient, {
   checkPeriod: 5 * 60 * 1000,
   dbRecordIdIsSessionId: true,
   dbRecordIdFunction: undefined,
@@ -18,7 +13,7 @@ const sessionStore = new PrismaSessionStore(prismaClient, {
  */
 
 const authSession = session({
-  secret: process.env.SESSION_SECRET,
+  secret: process.env.SESSION_SECRET || "secret",
   resave: false,
   saveUninitialized: true,
   store: sessionStore,

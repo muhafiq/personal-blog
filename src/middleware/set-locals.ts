@@ -1,10 +1,6 @@
-/**
- *
- * @param {string} dateString - Format datetime from database.
- * @returns return string like 29 July 2024
- */
+import { Request, Response, NextFunction } from "express";
 
-const formatDate = (dateString) => {
+const formatDate = (dateString: string) => {
   const date = new Date(dateString);
   return new Intl.DateTimeFormat("id-ID", {
     day: "numeric",
@@ -13,25 +9,11 @@ const formatDate = (dateString) => {
   }).format(date);
 };
 
-/**
- *
- * @param {string} text - A text want to limit.
- * @param {number} lim - Max length of character.
- * @returns return a text with limit.
- */
-
-const limit = (text, lim) => {
+const limit = (text: string, lim: number) => {
   return text.length > lim ? text.slice(0, lim) + "..." : text;
 };
 
-/**
- * Function to take the first paragraph tag in content blog.
- *
- * @param {string} text - a blog content with html tag.
- * @returns the first paragraph [<p>...</p>]
- */
-
-const takeFirstParagraph = (text) => {
+const takeFirstParagraph = (text: string) => {
   const regex = /<p\b[^>]*>(.*?)<\/p>/s;
   const match = text.match(regex);
   if (!match) return "<p>Tag p not found</p>";
@@ -48,14 +30,7 @@ const takeFirstParagraph = (text) => {
   return match[0];
 };
 
-/**
- * @function
- * @param {import("express").Request} req - Express request object.
- * @param {import("express").Response} res - Express response object.
- * @param {import("express").NextFunction} next - Express next middleware function.
- */
-
-export default (req, res, next) => {
+export default (req: Request, res: Response, next: NextFunction) => {
   // pass function helper
   res.locals.formatDate = formatDate;
   res.locals.lim = limit;

@@ -1,13 +1,10 @@
+import { Request, Response, NextFunction } from "express";
+
 /**
  * Middleware to handle user is authenticated or not.
- *
- * @function
- * @param {import("express").Request} req - Express request object.
- * @param {import("express").Response} res - Express response object.
- * @param {import("express").NextFunction} next - Express next middleware function.
  */
 
-export default (req, res, next) => {
+export default (req: Request, res: Response, next: NextFunction) => {
   if (req.session.user) {
     if (req.path === "/login") {
       return res.redirect("/dashboard");

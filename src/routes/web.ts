@@ -1,5 +1,5 @@
 import { Router } from "express";
-import setLocals from "../middleware/set-locals.js";
+import setLocals from "../middleware/set-locals";
 import {
   getAboutPage,
   getBlogPage,
@@ -7,7 +7,7 @@ import {
   getSinglePost,
   getLoginPage,
   processLogin,
-} from "../controller/web-public-controller.js";
+} from "../controller/web-public-controller";
 import {
   getComposePage,
   getDashboardPage,
@@ -20,17 +20,15 @@ import {
   deletePost,
   createPost,
   updatePost,
-} from "../controller/web-private-controller.js";
-import { upload } from "../config/multer-cloudinary.js";
-import isAuthenticated from "../middleware/is-authenticated.js";
+} from "../controller/web-private-controller";
+import { upload } from "../config/multer-cloudinary";
+import isAuthenticated from "../middleware/is-authenticated";
 
 /**
  * Express router to handle web routes.
- *
- * @type {Router}
  */
 
-const router = Router();
+const router: Router = Router();
 
 router.use(setLocals);
 
@@ -83,5 +81,10 @@ router.patch(
   updatePost
 );
 router.delete("/delete/:id", isAuthenticated, deletePost);
+
+/**
+ * Route media and file
+ */
+// router.delete("/media/delete/:postId", isAuthenticated, deletePostImage)
 
 export default router;
