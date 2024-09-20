@@ -1,22 +1,16 @@
-import prismaClient from "../config/database.js";
-import asyncHandler from "../error/async-handler.js";
-import ResponseError from "../error/response-error.js";
+import prismaClient from "../config/database";
+import asyncHandler from "../error/async-handler";
+import { Request, Response, NextFunction } from "express";
+import { MulterRequest } from "../types";
 
 /**
  * Controller for rendering the dashboard page.
  */
 
 export const getDashboardPage = asyncHandler(
-  /**
-   * @function
-   * @param {import("express").Request} req - Express request object.
-   * @param {import("express").Response} res - Express response object.
-   * @param {import("express").NextFunction} next - Express next middleware function.
-   */
-  async (req, res, next) => {
+  async (req: Request, res: Response, next: NextFunction) => {
     const postCount = await prismaClient.post.count();
 
-    // const draftPosts = posts.filter((post) => post.draft);
     const draftPosts = await prismaClient.post.findMany({
       where: { draft: true },
     });
@@ -35,13 +29,7 @@ export const getDashboardPage = asyncHandler(
  */
 
 export const getComposePage = asyncHandler(
-  /**
-   * @function
-   * @param {import("express").Request} req - Express request object.
-   * @param {import("express").Response} res - Express response object.
-   * @param {import("express").NextFunction} next - Express next middleware function.
-   */
-  async (req, res, next) => {
+  async (req: Request, res: Response, next: NextFunction) => {
     const categories = (await prismaClient.category.findMany()) || [];
 
     res.render("pages/dashboard/compose", {
@@ -57,13 +45,7 @@ export const getComposePage = asyncHandler(
  */
 
 export const getEditPostPage = asyncHandler(
-  /**
-   * @function
-   * @param {import("express").Request} req - Express request object.
-   * @param {import("express").Response} res - Express response object.
-   * @param {import("express").NextFunction} next - Express next middleware function.
-   */
-  async (req, res, next) => {
+  async (req: Request, res: Response, next: NextFunction) => {
     const { id: postId } = req.params;
 
     const post =
@@ -84,20 +66,14 @@ export const getEditPostPage = asyncHandler(
  */
 
 export const getManagePage = asyncHandler(
-  /**
-   * @function
-   * @param {import("express").Request} req - Express request object.
-   * @param {import("express").Response} res - Express response object.
-   * @param {import("express").NextFunction} next - Express next middleware function.
-   */
-  async (req, res, next) => {
+  async (req: Request, res: Response, next: NextFunction) => {
     const posts =
       (await prismaClient.post.findMany({
         orderBy: { createdAt: "desc" },
         include: { category: true },
       })) || [];
 
-    posts.sort((a, b) => b.draft - a.draft);
+    posts.sort((a, b) => (b.draft ? 1 : 0) - (a.draft ? 1 : 0));
 
     res.render("pages/dashboard/manage", {
       layout: "layouts/dashboard",
@@ -112,13 +88,7 @@ export const getManagePage = asyncHandler(
  */
 
 export const getProfilePage = asyncHandler(
-  /**
-   * @function
-   * @param {import("express").Request} req - Express request object.
-   * @param {import("express").Response} res - Express response object.
-   * @param {import("express").NextFunction} next - Express next middleware function.
-   */
-  async (req, res, next) => {
+  async (req: Request, res: Response, next: NextFunction) => {
     res.render("pages/dashboard/profile", {
       layout: "layouts/dashboard",
       title: "Profile",
@@ -131,13 +101,7 @@ export const getProfilePage = asyncHandler(
  */
 
 export const getEmailerPage = asyncHandler(
-  /**
-   * @function
-   * @param {import("express").Request} req - Express request object.
-   * @param {import("express").Response} res - Express response object.
-   * @param {import("express").NextFunction} next - Express next middleware function.
-   */
-  async (req, res, next) => {
+  async (req: Request, res: Response, next: NextFunction) => {
     res.render("pages/dashboard/emailer", {
       layout: "layouts/dashboard",
       title: "Emailer",
@@ -150,16 +114,10 @@ export const getEmailerPage = asyncHandler(
  */
 
 export const getMediaPage = asyncHandler(
-  /**
-   * @function
-   * @param {import("express").Request} req - Express request object.
-   * @param {import("express").Response} res - Express response object.
-   * @param {import("express").NextFunction} next - Express next middleware function.
-   */
-  async (req, res, next) => {
+  async (req: Request, res: Response, next: NextFunction) => {
     const thumbnails =
       (await prismaClient.post.findMany({
-        select: { thumbnail: true, title: true, createdAt: true },
+        select: { postId: true, thumbnail: true, title: true, createdAt: true },
       })) || [];
 
     const images = (await prismaClient.postImage.findMany()) || [];
@@ -178,13 +136,7 @@ export const getMediaPage = asyncHandler(
  */
 
 export const processLogout = asyncHandler(
-  /**
-   * @function
-   * @param {import("express").Request} req - Express request object.
-   * @param {import("express").Response} res - Express response object.
-   * @param {import("express").NextFunction} next - Express next middleware function.
-   */
-  async (req, res, next) => {
+  async (req: Request, res: Response, next: NextFunction) => {
     req.session.destroy((err) => {
       if (err) {
         req.flash("error", "Failed to logout!");
@@ -201,13 +153,7 @@ export const processLogout = asyncHandler(
  */
 
 export const createPost = asyncHandler(
-  /**
-   * @function
-   * @param {import("express").Request} req - Express request object.
-   * @param {import("express").Response} res - Express response object.
-   * @param {import("express").NextFunction} next - Express next middleware function.
-   */
-  async (req, res, next) => {
+  async (req: MulterRequest, res: Response, next: NextFunction) => {
     const { title, category, content } = req.body;
 
     const draft = req.body.draft === "on" ? true : false;
@@ -236,21 +182,13 @@ export const createPost = asyncHandler(
  */
 
 export const updatePost = asyncHandler(
-  /**
-   * @function
-   * @param {import("express").Request} req - Express request object.
-   * @param {import("express").Response} res - Express response object.
-   * @param {import("express").NextFunction} next - Express next middleware function.
-   */
-  async (req, res, next) => {
+  async (req: Request, res: Response, next: NextFunction) => {
     const { id: postId } = req.params;
 
     if (!postId) {
       req.flash("error", "Failed to update post, not provide an id!");
       res.redirect(`/edit/${postId}`);
     }
-
-    console.log(req.body);
 
     const { title, category, content, thumbnailUrl } = req.body;
     const draft = req.body.draft === "on" ? true : false;
@@ -278,13 +216,7 @@ export const updatePost = asyncHandler(
  */
 
 export const deletePost = asyncHandler(
-  /**
-   * @function
-   * @param {import("express").Request} req - Express request object.
-   * @param {import("express").Response} res - Express response object.
-   * @param {import("express").NextFunction} next - Express next middleware function.
-   */
-  async (req, res, next) => {
+  async (req: Request, res: Response, next: NextFunction) => {
     const { id: postId } = req.params;
 
     if (!postId) {

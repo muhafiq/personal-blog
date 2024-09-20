@@ -40,6 +40,7 @@ function selectLocalImage() {
 function saveToServer(file) {
   const fd = new FormData();
   fd.append("images", file);
+  fd.append("postId", location.pathname.split("/")[2]);
 
   const xhr = new XMLHttpRequest();
   xhr.open("POST", "/api/v1/upload", true);

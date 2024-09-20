@@ -1,10 +1,7 @@
 import { Router } from "express";
-import { upload } from "../config/multer-cloudinary.js";
-import isAuthenticated from "../middleware/is-authenticated.js";
-import {
-  uploadBlogImages,
-  addNewCategory,
-} from "../controller/api-controller.js";
+import { upload } from "../config/multer-cloudinary";
+import isAuthenticated from "../middleware/is-authenticated";
+import { uploadBlogImages, addNewCategory } from "../controller/api-controller";
 
 const router = Router();
 

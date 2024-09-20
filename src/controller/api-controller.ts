@@ -1,6 +1,8 @@
-import asyncHandler from "../error/async-handler.js";
-import prismaClient from "../config/database.js";
-import ResponseError from "../error/response-error.js";
+import asyncHandler from "../error/async-handler";
+import prismaClient from "../config/database";
+import ResponseError from "../error/response-error";
+import { Request, Response, NextFunction } from "express";
+import { MulterRequest } from "../types";
 
 /**
  * Controller to handle upload image in blog content.
@@ -10,13 +12,7 @@ import ResponseError from "../error/response-error.js";
  */
 
 export const uploadBlogImages = asyncHandler(
-  /**
-   * @function
-   * @param {import("express").Request} req - Express request object.
-   * @param {import("express").Response} res - Express response object.
-   * @param {import("express").NextFunction} next - Express next middleware function.
-   */
-  async (req, res, next) => {
+  async (req: MulterRequest, res: Response, next: NextFunction) => {
     await prismaClient.postImage.create({
       data: {
         fileName: req.file.path,
@@ -36,13 +32,7 @@ export const uploadBlogImages = asyncHandler(
  */
 
 export const addNewCategory = asyncHandler(
-  /**
-   * @function
-   * @param {import("express").Request} req - Express request object.
-   * @param {import("express").Response} res - Express response object.
-   * @param {import("express").NextFunction} next - Express next middleware function.
-   */
-  async (req, res, next) => {
+  async (req: Request, res: Response, next: NextFunction) => {
     const { category } = req.body;
 
     if (!category)

@@ -38,16 +38,18 @@
             <h3 class="text-lg font-medium"><%= post.title %></h3>
             <p class="text-sm opacity-75"><%= formatDate(post.createdAt) %></p>
           </figcaption>
-          <a
-            href="<%= post.thumbnail %>"
-            target="_blank"
-            class="absolute top-4 right-4 cursor-pointer"
-          >
-            <i
-              class="fa-solid fa-arrow-up-right-from-square bg-white rounded-full shadow p-2"
+          <div class="absolute top-4 right-4 flex items-center gap-2">
+            <a
+              href="<%= post.thumbnail %>"
+              target="_blank"
+              class="cursor-pointer"
             >
-            </i>
-          </a>
+              <i
+                class="fa-solid fa-arrow-up-right-from-square bg-white rounded-full shadow p-2"
+              >
+              </i>
+            </a>
+          </div>
         </figure>
       </div>
       <% }) %>
@@ -76,16 +78,26 @@
               >
                 <h3 class="text-lg font-medium"><%= image.imageId %></h3>
               </figcaption>
-              <a
-                href="<%= image.fileName %>"
-                target="_blank"
-                class="absolute top-4 right-4 cursor-pointer"
-              >
-                <i
-                  class="fa-solid fa-arrow-up-right-from-square bg-white rounded-full shadow p-2"
+              <div class="absolute top-4 right-4 flex items-center gap-2">
+                <a
+                  href="<%= image.fileName %>"
+                  target="_blank"
+                  class="cursor-pointer"
                 >
-                </i>
-              </a>
+                  <i
+                    class="fa-solid fa-arrow-up-right-from-square bg-white rounded-full shadow p-2"
+                  >
+                  </i>
+                </a>
+                <form action="/media/delete/<%= image.imageId %>" method="post">
+                  <button type="submit">
+                    <i
+                      class="fa-solid fa-trash text-white rounded-full shadow p-2 bg-rose-600"
+                    >
+                    </i>
+                  </button>
+                </form>
+              </div>
             </figure>
           </div>
           <% }) %>
