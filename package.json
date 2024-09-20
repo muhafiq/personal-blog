@@ -8,7 +8,7 @@
     "dev:server": "tsx watch --env-file=.env src/index",
     "dev:css": "npx tailwindcss -i src/views/assets/tailwind.css -o src/public/styles/main.css --watch",
     "dev": "concurrently \"npm run dev:server\" \"npm run dev:css\"",
-    "build:db": "prisma generate && prisma migrate deploy",
+    "build:db": "prisma generate && prisma db push",
     "build:server": "tsc && cp -r ./src/views ./dist && cp -r ./src/public ./dist",
     "build": "npm run build:db && npm run build:server"
   },

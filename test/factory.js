@@ -1,5 +1,7 @@
-import { faker } from "@faker-js/faker";
-import prismaClient from "../src/config/database.js";
+const faker = require("@faker-js/faker").faker;
+const PrismaClient = require("@prisma/client").PrismaClient;
+
+const prismaClient = new PrismaClient();
 
 const generateHTMLContent = () => {
   let content = "";
@@ -65,4 +67,4 @@ const createSamplePosts = async (numPosts, imagesPerPost) => {
   }
 };
 
-await createSamplePosts(20, 2);
+createSamplePosts(20, 2);
