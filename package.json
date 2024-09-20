@@ -5,12 +5,12 @@
   "type": "commonjs",
   "scripts": {
     "start": "node --env-file=.env dist/index",
-    "dev:server": "tsx watch --env-file=.env index",
-    "dev:css": "npx tailwindcss -i ./views/assets/tailwind.css -o ./public/styles/main.css --watch",
+    "dev:server": "tsx watch --env-file=.env src/index",
+    "dev:css": "npx tailwindcss -i src/views/assets/tailwind.css -o src/public/styles/main.css --watch",
     "dev": "concurrently \"npm run dev:server\" \"npm run dev:css\"",
-    "build:css": "",
     "build:db": "prisma generate && prisma migrate deploy",
-    "build:server": "tsc && cp -r ./src/views ./dist && cp -r ./src/public ./dist"
+    "build:server": "tsc && cp -r ./src/views ./dist && cp -r ./src/public ./dist",
+    "build": "npm run build:db && npm run build:server"
   },
   "keywords": [],
   "author": "",
